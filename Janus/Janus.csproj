@@ -184,6 +184,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="PdfSharp" Version="6.2.1" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Resources\kvt-logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
