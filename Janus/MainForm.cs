@@ -585,7 +585,7 @@ namespace Janus
                     XSize textSize = gfx.MeasureString(days[r, c], squareFont);
                     double textX = sx + (squareWidth - textSize.Width) / 2;
                     double textY = sy + (squareHeight / 1.5);
-                    gfx.DrawString(days[r, c], squareFont, isActive[r, c] ? kvtBrush : XBrushes.Gray, textX, textY);
+                    gfx.DrawString(days[r, c], squareFont, isActive[r, c] ? XBrushes.White : XBrushes.Gray, textX, textY);
                 }
             }
 
