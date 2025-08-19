@@ -114,7 +114,7 @@ namespace Janus
 
         private void zeroBreak_Click(object sender, EventArgs e)
         {
-            breakMinutesInput.Value = 15;
+            breakMinutesInput.Value = 0;
             SetTodayHoursWorked();
         }
 
@@ -205,18 +205,27 @@ namespace Janus
                 DateTime day = monday.AddDays(i);
 
                 string hoursText = "";
+                int minutes = 0;
+
                 if (SaveData.SavedDays.ContainsKey(day))
                 {
                     hoursText = $"{SaveData.GetDay(day).WorkedTime.Hours.ToString("d2")}:{SaveData.GetDay(day).WorkedTime.Minutes.ToString("d2")}";
+                    minutes = (int)(SaveData.GetDay(day).WorkedTime - SaveData.GetWorkHoursForDayNumber(i)).TotalMinutes;
                 }
+
+                System.Drawing.Color selected = System.Drawing.Color.FromArgb(255, 104, 199, 231);
+                System.Drawing.Color unselected = System.Drawing.Color.FromArgb(255, 240, 240, 240);
 
                 switch (i)
                 {
                     case 0:
+                        MondayName.BackColor = day.Date == _currentSelecedDay.Date ? selected : unselected;
+
                         if (SaveData.SavedDays.ContainsKey(day))
                         {
                             MondayHours.Text = hoursText;
-                            MondayDelta.Text = (SaveData.GetDay(day).WorkedTime - SaveData.MondayHours).TotalMinutes.ToString("+0;-0;0");
+                            MondayDelta.Text = minutes.ToString("+0;-0;0");
+                            MondayDelta.BackColor = minutes > 0 ? System.Drawing.Color.LightGreen : minutes < 0 ? System.Drawing.Color.PaleVioletRed : System.Drawing.Color.LightGray;
                         }
                         else
                         {
@@ -225,10 +234,13 @@ namespace Janus
                         }
                         break;
                     case 1:
+                        TuesdayName.BackColor = day.Date == _currentSelecedDay.Date ? selected : unselected;
+
                         if (SaveData.SavedDays.ContainsKey(day))
                         {
                             TuesdayHours.Text = hoursText;
-                            TuesdayDelta.Text = (SaveData.GetDay(day).WorkedTime - SaveData.TuesdayHours).TotalMinutes.ToString("+0;-0;0");
+                            TuesdayDelta.Text = minutes.ToString("+0;-0;0");
+                            TuesdayDelta.BackColor = minutes > 0 ? System.Drawing.Color.LightGreen : minutes < 0 ? System.Drawing.Color.PaleVioletRed : System.Drawing.Color.LightGray;
                         }
                         else
                         {
@@ -237,10 +249,13 @@ namespace Janus
                         }
                         break;
                     case 2:
+                        WednesdayName.BackColor = day.Date == _currentSelecedDay.Date ? selected : unselected;
+
                         if (SaveData.SavedDays.ContainsKey(day))
                         {
                             WednesdayHours.Text = hoursText;
-                            WednesdayDelta.Text = (SaveData.GetDay(day).WorkedTime - SaveData.WednesdayHours).TotalMinutes.ToString("+0;-0;0");
+                            WednesdayDelta.Text = minutes.ToString("+0;-0;0");
+                            WednesdayDelta.BackColor = minutes > 0 ? System.Drawing.Color.LightGreen : minutes < 0 ? System.Drawing.Color.PaleVioletRed : System.Drawing.Color.LightGray;
                         }
                         else
                         {
@@ -249,10 +264,13 @@ namespace Janus
                         }
                         break;
                     case 3:
+                        ThursdayName.BackColor = day.Date == _currentSelecedDay.Date ? selected : unselected;
+
                         if (SaveData.SavedDays.ContainsKey(day))
                         {
                             ThursdayHours.Text = hoursText;
-                            ThursdayDelta.Text = (SaveData.GetDay(day).WorkedTime - SaveData.ThursdayHours).TotalMinutes.ToString("+0;-0;0");
+                            ThursdayDelta.Text = minutes.ToString("+0;-0;0");
+                            ThursdayDelta.BackColor = minutes > 0 ? System.Drawing.Color.LightGreen : minutes < 0 ? System.Drawing.Color.PaleVioletRed : System.Drawing.Color.LightGray;
                         }
                         else
                         {
@@ -261,10 +279,13 @@ namespace Janus
                         }
                         break;
                     case 4:
+                        FridayName.BackColor = day.Date == _currentSelecedDay.Date ? selected : unselected;
+
                         if (SaveData.SavedDays.ContainsKey(day))
                         {
                             FridayHours.Text = hoursText;
-                            FridayDelta.Text = (SaveData.GetDay(day).WorkedTime - SaveData.FridayHours).TotalMinutes.ToString("+0;-0;0");
+                            FridayDelta.Text = minutes.ToString("+0;-0;0");
+                            FridayDelta.BackColor = minutes > 0 ? System.Drawing.Color.LightGreen : minutes < 0 ? System.Drawing.Color.PaleVioletRed : System.Drawing.Color.LightGray;
                         }
                         else
                         {
@@ -273,10 +294,13 @@ namespace Janus
                         }
                         break;
                     case 5:
+                        SaturdayName.BackColor = day.Date == _currentSelecedDay.Date ? selected : unselected;
+
                         if (SaveData.SavedDays.ContainsKey(day))
                         {
                             SaturdayHours.Text = hoursText;
-                            SaturdayDelta.Text = (SaveData.GetDay(day).WorkedTime - SaveData.SaturdayHours).TotalMinutes.ToString("+0;-0;0");
+                            SaturdayDelta.Text = minutes.ToString("+0;-0;0");
+                            SaturdayDelta.BackColor = minutes > 0 ? System.Drawing.Color.LightGreen : minutes < 0 ? System.Drawing.Color.PaleVioletRed : System.Drawing.Color.LightGray;
                         }
                         else
                         {
@@ -285,10 +309,13 @@ namespace Janus
                         }
                         break;
                     case 6:
+                        SundayName.BackColor = day.Date == _currentSelecedDay.Date ? selected : unselected;
+
                         if (SaveData.SavedDays.ContainsKey(day))
                         {
                             SundayHours.Text = hoursText;
-                            SundayDelta.Text = (SaveData.GetDay(day).WorkedTime - SaveData.SundayHours).TotalMinutes.ToString("+0;-0;0");
+                            SundayDelta.Text = minutes.ToString("+0;-0;0");
+                            SundayDelta.BackColor = minutes > 0 ? System.Drawing.Color.LightGreen : minutes < 0 ? System.Drawing.Color.PaleVioletRed : System.Drawing.Color.LightGray;
                         }
                         else
                         {
@@ -307,6 +334,7 @@ namespace Janus
                 Math.Abs(extraHours.Minutes));
 
             extraHoursLabel.Text = extraHoursFormatted;
+            extraHoursLabel.ForeColor = extraHours > TimeSpan.Zero ? System.Drawing.Color.DarkGreen : extraHours < TimeSpan.Zero ? System.Drawing.Color.DarkRed : System.Drawing.Color.Black;
         }
 
         private void Load()
@@ -420,9 +448,11 @@ namespace Janus
             XFont fontRegular = new XFont("Verdana", 12, XFontStyleEx.Regular);
             XFont fontBold = new XFont("Verdana", 12, XFontStyleEx.Bold);
 
+            XBrush kvtBrush = new XSolidBrush(XColor.FromArgb(0, 82, 155));
+
             // Write user details
-            gfx.DrawString($"{_userName}, {monthYear}", fontBig, XBrushes.Black, new XRect(50, 100, page.Width, 30), XStringFormats.TopLeft);
-            gfx.DrawString($"{_userEmail}", fontRegular, XBrushes.Black, new XRect(50, 130, page.Width, 20), XStringFormats.TopLeft);
+            gfx.DrawString($"{_userName}, {monthYear}", fontBig, kvtBrush, new XRect(50, 100, page.Width, 30), XStringFormats.TopLeft);
+            gfx.DrawString($"{_userEmail}", fontRegular, kvtBrush, new XRect(50, 130, page.Width, 20), XStringFormats.TopLeft);
 
             List<(DateTime, SaveData.DayData)> monthdays = new List<(DateTime, SaveData.DayData)>();
 
@@ -456,9 +486,9 @@ namespace Janus
             int xKm = 400;
 
             // Table header
-            gfx.DrawString("Datum", fontBold, XBrushes.Black, new XRect(xDate, y, 200, rowHeight), XStringFormats.CenterLeft);
-            gfx.DrawString("Gewerkte uren", fontBold, XBrushes.Black, new XRect(xHours, y, 100, rowHeight), XStringFormats.CenterLeft);
-            gfx.DrawString("Gereden Kilometers", fontBold, XBrushes.Black, new XRect(xKm, y, 100, rowHeight), XStringFormats.CenterLeft);
+            gfx.DrawString("Datum", fontBold, kvtBrush, new XRect(xDate, y, 200, rowHeight), XStringFormats.CenterLeft);
+            gfx.DrawString("Gewerkte uren", fontBold, kvtBrush, new XRect(xHours, y, 100, rowHeight), XStringFormats.CenterLeft);
+            gfx.DrawString("Gereden Kilometers", fontBold, kvtBrush, new XRect(xKm, y, 100, rowHeight), XStringFormats.CenterLeft);
             y += rowHeight;
 
             bool shade = false;
@@ -473,13 +503,13 @@ namespace Janus
                     gfx.DrawRectangle(XBrushes.LightGray, xDate, y - 4, page.Width - 100, rowHeight);
                 }
 
-                gfx.DrawString(row.Item1.ToString("dd MMMM (dddd)", dutch), fontRegular, XBrushes.Black,
+                gfx.DrawString(row.Item1.ToString("dd MMMM (dddd)", dutch), fontRegular, kvtBrush,
                     new XRect(xDate, y, 200, rowHeight), XStringFormats.CenterLeft);
 
-                gfx.DrawString(row.Item2.WorkedString, fontRegular, XBrushes.Black,
+                gfx.DrawString(row.Item2.WorkedString, fontRegular, kvtBrush,
                     new XRect(xHours, y, 100, rowHeight), XStringFormats.CenterLeft);
 
-                gfx.DrawString($"{row.Item2.Kilometers.ToString()} km", fontRegular, XBrushes.Black,
+                gfx.DrawString($"{row.Item2.Kilometers.ToString()} km", fontRegular, kvtBrush,
                     new XRect(xKm, y, 100, rowHeight), XStringFormats.CenterLeft);
 
                 totalKm += row.Item2.Kilometers;
@@ -491,11 +521,11 @@ namespace Janus
             
             if (extraHours > TimeSpan.Zero)
             {
-                gfx.DrawString($"Overgewerkt: {Math.Floor(extraHours.TotalHours)} uur, {extraHours.Minutes} {(extraHours.Minutes == 1 ? "minuut" : "minuten")}", fontBold, XBrushes.Black, new XRect(50, y, 200, rowHeight), XStringFormats.CenterLeft);
+                gfx.DrawString($"Overgewerkt: {Math.Floor(extraHours.TotalHours)} uur, {extraHours.Minutes} {(extraHours.Minutes == 1 ? "minuut" : "minuten")}", fontBold, kvtBrush, new XRect(50, y, 200, rowHeight), XStringFormats.CenterLeft);
                 y += rowHeight;
             }
 
-            gfx.DrawString($"Totaal kilometers gereden: {totalKm}", fontBold, XBrushes.Black, new XRect(50, y, 200, rowHeight), XStringFormats.CenterLeft);
+            gfx.DrawString($"Totaal kilometers gereden: {totalKm}", fontBold, kvtBrush, new XRect(50, y, 200, rowHeight), XStringFormats.CenterLeft);
 
             document.Save(savePath);
             Process.Start("explorer.exe", Directory.GetParent(savePath).FullName);
