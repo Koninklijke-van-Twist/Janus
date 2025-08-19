@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.DirectoryServices.AccountManagement;
 using System.Globalization;
 using System.IO;
-using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace Janus
@@ -231,8 +230,10 @@ namespace Janus
                         {
                             MondayHours.Text = "";
                             MondayDelta.Text = "";
+                            MondayDelta.BackColor = unselected;
                         }
                         break;
+
                     case 1:
                         TuesdayName.BackColor = day.Date == _currentSelecedDay.Date ? selected : unselected;
 
@@ -246,8 +247,10 @@ namespace Janus
                         {
                             TuesdayHours.Text = "";
                             TuesdayDelta.Text = "";
+                            TuesdayDelta.BackColor = unselected;
                         }
                         break;
+
                     case 2:
                         WednesdayName.BackColor = day.Date == _currentSelecedDay.Date ? selected : unselected;
 
@@ -261,8 +264,10 @@ namespace Janus
                         {
                             WednesdayHours.Text = "";
                             WednesdayDelta.Text = "";
+                            WednesdayDelta.BackColor = unselected;
                         }
                         break;
+
                     case 3:
                         ThursdayName.BackColor = day.Date == _currentSelecedDay.Date ? selected : unselected;
 
@@ -276,8 +281,10 @@ namespace Janus
                         {
                             ThursdayHours.Text = "";
                             ThursdayDelta.Text = "";
+                            ThursdayDelta.BackColor = unselected;
                         }
                         break;
+
                     case 4:
                         FridayName.BackColor = day.Date == _currentSelecedDay.Date ? selected : unselected;
 
@@ -291,8 +298,10 @@ namespace Janus
                         {
                             FridayHours.Text = "";
                             FridayDelta.Text = "";
+                            FridayDelta.BackColor = unselected;
                         }
                         break;
+
                     case 5:
                         SaturdayName.BackColor = day.Date == _currentSelecedDay.Date ? selected : unselected;
 
@@ -306,8 +315,10 @@ namespace Janus
                         {
                             SaturdayHours.Text = "";
                             SaturdayDelta.Text = "";
+                            SaturdayDelta.BackColor = unselected;
                         }
                         break;
+
                     case 6:
                         SundayName.BackColor = day.Date == _currentSelecedDay.Date ? selected : unselected;
 
@@ -321,6 +332,7 @@ namespace Janus
                         {
                             SundayHours.Text = "";
                             SundayDelta.Text = "";
+                            SundayDelta.BackColor = unselected;
                         }
                         break;
                 }
