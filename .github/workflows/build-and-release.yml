@@ -86,7 +86,6 @@ jobs:
           body: |
             ${{ env.RELEASE_NOTES }}
 
-            When upgrading from an older release, make sure to back-up your config file.
             If you encounter any issues, please report them to ict@kvt.nl
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
