@@ -461,6 +461,7 @@ namespace Janus
             XFont fontBold = new XFont("Verdana", 12, XFontStyleEx.Bold);
 
             XBrush kvtBrush = new XSolidBrush(XColor.FromArgb(0, 82, 155));
+            XBrush kvtBgBrush = new XSolidBrush(XColor.FromArgb(0, 153, 204));
 
             // Write user details
             gfx.DrawString($"{_userName}, {monthYear}", fontBig, kvtBrush, new XRect(50, 100, page.Width, 30), XStringFormats.TopLeft);
@@ -538,6 +539,55 @@ namespace Janus
             }
 
             gfx.DrawString($"Totaal kilometers gereden: {totalKm}", fontBold, kvtBrush, new XRect(50, y, 200, rowHeight), XStringFormats.CenterLeft);
+
+
+            double pageWidth = page.Width;
+            double pageHeight = page.Height;
+
+            string label = "Vaste Werkdagen:";
+            XSize labelSize = gfx.MeasureString(label, fontRegular);
+
+            string[,] days = { { "Ma", "Di", "Wo", "Do" }, { "Vr", "Za", "Zo", "" } }; // note: last empty cell for 4x2
+                bool[,] isActive = {
+                { SaveData.MondayHours > TimeSpan.Zero, SaveData.TuesdayHours > TimeSpan.Zero, SaveData.WednesdayHours > TimeSpan.Zero, SaveData.ThursdayHours > TimeSpan.Zero },
+                { SaveData.FridayHours > TimeSpan.Zero, SaveData.SaturdayHours > TimeSpan.Zero, SaveData.SundayHours > TimeSpan.Zero, false }
+            };
+
+            int cols = 4;
+            int rows = 2;
+            double squareWidth = 20;  // adjust for two characters
+            double squareHeight = 15;
+
+            double spacing = 5;
+            double gridWidth = cols * squareWidth + (cols - 1) * spacing;
+            double gridHeight = rows * squareHeight + (rows - 1) * spacing;
+            double startX = pageWidth - gridWidth - 50; // 50 units margin from right
+            double startY = 792;
+            gfx.DrawString(label, fontRegular, kvtBrush, startX - labelSize.Width - 10, startY + gridHeight / 2 - labelSize.Height / 2);
+
+            XFont squareFont = new XFont("Verdana", 8, XFontStyleEx.Regular);
+
+            for (int r = 0; r < rows; r++)
+            {
+                for (int c = 0; c < cols; c++)
+                {
+                    if (string.IsNullOrEmpty(days[r, c]))
+                        continue; // skip empty cells
+
+                    double sx = startX + c * (squareWidth + spacing);
+                    double sy = startY + r * (squareHeight + spacing);
+
+                    // Background colour
+                    XBrush brush = isActive[r, c] ? kvtBgBrush : XBrushes.LightGray;
+                    gfx.DrawRectangle(brush, sx, sy, squareWidth, squareHeight);
+
+                    // Draw day abbreviation centered
+                    XSize textSize = gfx.MeasureString(days[r, c], squareFont);
+                    double textX = sx + (squareWidth - textSize.Width) / 2;
+                    double textY = sy + (squareHeight / 1.5);
+                    gfx.DrawString(days[r, c], squareFont, isActive[r, c] ? kvtBrush : XBrushes.Gray, textX, textY);
+                }
+            }
 
             document.Save(savePath);
             Process.Start("explorer.exe", Directory.GetParent(savePath).FullName);
