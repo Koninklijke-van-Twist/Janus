@@ -1,0 +1,6 @@
+Janus/bin/*
+Janus/obj/*
+Janus/CopilotIndices/*
+Janus/.vs/
+
+Janus/packages/
