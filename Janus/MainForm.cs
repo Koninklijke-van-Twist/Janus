@@ -171,7 +171,7 @@ namespace Janus
             CultureInfo dutch = new CultureInfo("nl-NL");
             string formatted = _currentSelecedDay.ToString("MMMM yyyy", dutch);
 
-            saveFileDialog1.FileName = $"{_userName} - uren {formatted}";
+            saveFileDialog1.FileName = $"{_currentSelecedDay.Year}{_currentSelecedDay.Month.ToString("d2")} {_userName} - uren {formatted}";
 
             if (saveFileDialog1.ShowDialog() is DialogResult.OK)
             {
