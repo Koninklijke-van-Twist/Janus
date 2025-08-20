@@ -14,7 +14,6 @@ namespace Janus
         public TimeSpan SundayHours = TimeSpan.FromHours(0);
 
         public Dictionary<DaySelector, DayData> SavedDays = new Dictionary<DaySelector, DayData>();
-
         public DayData GetDay(DaySelector day)
         {
             if (!SavedDays.ContainsKey(day))
@@ -55,6 +54,7 @@ namespace Janus
             public TimeSpan EndTime;
             public int BreakMinutes;
             public decimal Kilometers;
+            public bool isHoliday = false;
 
             public TimeSpan WorkedTime => (EndTime - StartTime).Subtract(TimeSpan.FromMinutes(BreakMinutes));
             public string WorkedString => $"{WorkedTime.Hours} uur, {WorkedTime.Minutes} {(WorkedTime.Minutes == 1? "minuut" : "minuten")}";

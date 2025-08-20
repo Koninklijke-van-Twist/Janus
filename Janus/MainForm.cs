@@ -179,6 +179,14 @@ namespace Janus
             }
         }
 
+        private void isHoliday_CheckedChanged(object sender, EventArgs e)
+        {
+            SaveData.EnsureDayDataExists(_currentSelecedDay);
+            SaveData.SavedDays[_currentSelecedDay].isHoliday = isHoliday.Checked;
+
+            SetTodayHoursWorked();
+        }
+
         #endregion
 
         #region Private Methods
@@ -187,6 +195,17 @@ namespace Janus
         {
             SaveData.EnsureDayDataExists(_currentSelecedDay);
 
+            if(CurrentDayData.isHoliday)
+            {
+                // Set time to zero
+                startTimePicker.Value = _currentSelecedDay.Date;
+                endTimePicker.Value = _currentSelecedDay.Date;
+                breakMinutesInput.Value = 0;
+                kmDriven.Value = 0;
+            }
+
+            SetTimeControlsEnabledForHolidayStatus();
+
             CurrentDayData.StartTime = startTimePicker.Value.TimeOfDay;
             CurrentDayData.EndTime = endTimePicker.Value.TimeOfDay;
             CurrentDayData.BreakMinutes = (int)breakMinutesInput.Value;
@@ -194,7 +213,14 @@ namespace Janus
             CultureInfo dutch = new CultureInfo("nl-NL");
             string formatted = _currentSelecedDay.ToString("dddd dd MMMM yyyy", dutch);
 
-            dayHeaderLabel.Text = $"{formatted} - {CurrentDayData.WorkedTime.Hours} uur, {CurrentDayData.WorkedTime.Minutes} {(CurrentDayData.WorkedTime.Minutes == 1 ? "minuut" : "minuten")} gewerkt";
+            if(CurrentDayData.isHoliday)
+            {
+                dayHeaderLabel.Text = $"{formatted} - Vakantiedag";
+            }
+            else
+            {
+                dayHeaderLabel.Text = $"{formatted} - {CurrentDayData.WorkedTime.Hours} uur, {CurrentDayData.WorkedTime.Minutes} {(CurrentDayData.WorkedTime.Minutes == 1 ? "minuut" : "minuten")} gewerkt";
+            }
 
             int diff = ((int)_currentSelecedDay.DayOfWeek + 6) % 7; // Monday = 0, Sunday = 6
             DateTime monday = _currentSelecedDay.AddDays(-diff);
@@ -208,8 +234,8 @@ namespace Janus
 
                 if (SaveData.SavedDays.ContainsKey(day))
                 {
-                    hoursText = $"{SaveData.GetDay(day).WorkedTime.Hours.ToString("d2")}:{SaveData.GetDay(day).WorkedTime.Minutes.ToString("d2")}";
-                    minutes = (int)(SaveData.GetDay(day).WorkedTime - SaveData.GetWorkHoursForDayNumber(i)).TotalMinutes;
+                    hoursText = SaveData.GetDay(day).isHoliday? "VRIJ" : $"{SaveData.GetDay(day).WorkedTime.Hours.ToString("d2")}:{SaveData.GetDay(day).WorkedTime.Minutes.ToString("d2")}";
+                    minutes = SaveData.GetDay(day).isHoliday? 0 : (int)(SaveData.GetDay(day).WorkedTime - SaveData.GetWorkHoursForDayNumber(i)).TotalMinutes;
                 }
 
                 System.Drawing.Color selected = System.Drawing.Color.FromArgb(255, 104, 199, 231);
@@ -407,11 +433,27 @@ namespace Janus
 
             breakMinutesInput.Value = day.BreakMinutes;
             kmDriven.Value = day.Kilometers;
+            isHoliday.Checked = day.isHoliday;
             startTimePicker.Value = start;
             endTimePicker.Value = end;
 
             SetTodayHoursWorked();
             nextDayButton.Enabled = DateTime.Now.Date > _currentSelecedDay.Date;
+        }
+
+        private void SetTimeControlsEnabledForHolidayStatus()
+        {
+            startTimePicker.Enabled = !CurrentDayData.isHoliday;
+            endTimePicker.Enabled = !CurrentDayData.isHoliday;
+            breakMinutesInput.Enabled = !CurrentDayData.isHoliday;
+            kmDriven.Enabled = !CurrentDayData.isHoliday;
+
+            setStartToNow.Enabled = !CurrentDayData.isHoliday;
+            setEndToNow.Enabled = !CurrentDayData.isHoliday;
+            autoEndHours.Enabled = !CurrentDayData.isHoliday;
+            thirtyMinuteBreak.Enabled = !CurrentDayData.isHoliday;
+            fifteenMinuteBreak.Enabled = !CurrentDayData.isHoliday;
+            zeroBreak.Enabled = !CurrentDayData.isHoliday;
         }
 
         private TimeSpan CalculateExtraHours()
@@ -424,7 +466,8 @@ namespace Janus
 
             for (DateTime day = firstDay; day <= lastDay; day = day.AddDays(1))
             {
-                if (SaveData.SavedDays.ContainsKey(day) && SaveData.SavedDays[day].WorkedTime > TimeSpan.Zero)
+                // Do we have data on the day && is there any worked time on the day && is it NOT a holiday?
+                if (SaveData.SavedDays.ContainsKey(day) && SaveData.SavedDays[day].WorkedTime > TimeSpan.Zero && !SaveData.SavedDays[day].isHoliday)
                 {
                     int dayNumber = ((int)day.DayOfWeek + 6) % 7;
                     TimeSpan OverTime = TimeSpan.FromMinutes((SaveData.GetDay(day).WorkedTime - SaveData.GetWorkHoursForDayNumber(dayNumber)).TotalMinutes);
@@ -479,13 +522,17 @@ namespace Janus
             // Loop through all days
             for (DateTime day = firstDay; day <= lastDay; day = day.AddDays(1))
             {
-                if (SaveData.SavedDays.ContainsKey(day) && (SaveData.SavedDays[day].WorkedTime > TimeSpan.Zero || SaveData.SavedDays[day].Kilometers >= 0))
+                if (SaveData.SavedDays.ContainsKey(day) && (SaveData.SavedDays[day].WorkedTime > TimeSpan.Zero || SaveData.SavedDays[day].Kilometers >= 0 || SaveData.SavedDays[day].isHoliday))
                 {
                     monthdays.Add((day, SaveData.GetDay(day)));
 
                     int dayNumber = ((int)day.DayOfWeek + 6) % 7;
-                    TimeSpan OverTime = TimeSpan.FromMinutes((SaveData.GetDay(day).WorkedTime - SaveData.GetWorkHoursForDayNumber(dayNumber)).TotalMinutes);
-                    extraHours = extraHours.Add(OverTime);
+
+                    if (!SaveData.SavedDays[day].isHoliday)
+                    {
+                        TimeSpan OverTime = TimeSpan.FromMinutes((SaveData.GetDay(day).WorkedTime - SaveData.GetWorkHoursForDayNumber(dayNumber)).TotalMinutes);
+                        extraHours = extraHours.Add(OverTime);
+                    }
                 }
             }
 
@@ -508,7 +555,7 @@ namespace Janus
 
             foreach ((DateTime, SaveData.DayData) row in monthdays)
             {
-                if (row.Item2.WorkedTime == TimeSpan.Zero)
+                if (row.Item2.WorkedTime == TimeSpan.Zero && row.Item2.Kilometers == 0 && !row.Item2.isHoliday)
                     continue;
 
                 if (shade)
@@ -519,13 +566,15 @@ namespace Janus
                 gfx.DrawString(row.Item1.ToString("dd MMMM (dddd)", dutch), fontRegular, kvtBrush,
                     new XRect(xDate, y, 200, rowHeight), XStringFormats.CenterLeft);
 
-                gfx.DrawString(row.Item2.WorkedString, fontRegular, kvtBrush,
+                gfx.DrawString(row.Item2.isHoliday ? "Vakantiedag" : row.Item2.WorkedString, fontRegular, kvtBrush,
                     new XRect(xHours, y, 100, rowHeight), XStringFormats.CenterLeft);
 
-                gfx.DrawString($"{row.Item2.Kilometers.ToString()} km", fontRegular, kvtBrush,
+                gfx.DrawString(row.Item2.isHoliday ? "N.v.t." : $"{row.Item2.Kilometers.ToString()} km", fontRegular, kvtBrush,
                     new XRect(xKm, y, 100, rowHeight), XStringFormats.CenterLeft);
 
-                totalKm += row.Item2.Kilometers;
+                if(!row.Item2.isHoliday)
+                    totalKm += row.Item2.Kilometers;
+
                 y += rowHeight;
                 shade = !shade;
             }
