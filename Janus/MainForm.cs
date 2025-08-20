@@ -167,7 +167,7 @@ namespace Janus
             Save();
         }
 
-        private void saveMonthPDF_Click(object sender, EventArgs e)
+        private void saveMonthPDF_ButtonClick(object sender, EventArgs e)
         {
             CultureInfo dutch = new CultureInfo("nl-NL");
             string formatted = _currentSelecedDay.ToString("MMMM yyyy", dutch);
@@ -176,7 +176,30 @@ namespace Janus
 
             if (saveFileDialog1.ShowDialog() is DialogResult.OK)
             {
-                CreatePDF(saveFileDialog1.FileName);
+                DateTime firstDay = new DateTime(_currentSelecedDay.Year, _currentSelecedDay.Month, 1);
+                int daysInMonth = DateTime.DaysInMonth(_currentSelecedDay.Year, _currentSelecedDay.Month);
+                DateTime lastDay = new DateTime(_currentSelecedDay.Year, _currentSelecedDay.Month, daysInMonth);
+
+                CreatePDF(saveFileDialog1.FileName, firstDay, lastDay);
+            }
+        }
+
+        private void aangepastePeriodeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CustomPeriodExportForm form = new CustomPeriodExportForm();
+
+            if(form.ShowDialog() is DialogResult.OK)
+            {
+                CultureInfo dutch = new CultureInfo("nl-NL");
+                string start = form.LastSelectedStartDate.ToString("dd MMMM yyyy", dutch);
+                string end = form.LastSelectedEndDate.ToString("dd MMMM yyyy", dutch);
+
+                saveFileDialog1.FileName = $"{_userName} - uren {start} - {end}";
+
+                if (saveFileDialog1.ShowDialog() is DialogResult.OK)
+                {
+                    CreatePDF(saveFileDialog1.FileName, form.LastSelectedStartDate, form.LastSelectedEndDate, $"{start} - {end}");
+                }
             }
         }
 
@@ -432,6 +455,10 @@ namespace Janus
                 SaveData.SavedDays[_currentSelecedDay].BreakMinutes = 0;
             }
 
+            CultureInfo dutch = new CultureInfo("nl-NL");
+            string formatted = _currentSelecedDay.ToString("MMMM yyyy", dutch);
+            saveMonthPDF.Text = $"Rapportage {formatted} opslaan als PDF";
+
             breakMinutesInput.Value = day.BreakMinutes;
             kmDriven.Value = day.Kilometers;
             isHoliday.Checked = day.isHoliday;
@@ -479,13 +506,13 @@ namespace Janus
             return extraHours;
         }
 
-        private void CreatePDF(string savePath)
+        private void CreatePDF(string savePath, DateTime firstDay, DateTime lastDay, string customPeriodString = "")
         {
             CultureInfo dutch = new CultureInfo("nl-NL");
             string monthYear = _currentSelecedDay.ToString("MMMM yyyy", dutch);
 
             PdfDocument document = new PdfDocument();
-            document.Info.Title = $"{_userName} - uren {monthYear}";
+            document.Info.Title = customPeriodString != string.Empty? $"{_userName} - uren {customPeriodString}" : $"{_userName} - uren {monthYear}";
 
             GlobalFontSettings.FontResolver = new FileFontResolver();
 
@@ -512,11 +539,6 @@ namespace Janus
             gfx.DrawString($"{_userEmail}", fontRegular, kvtBrush, new XRect(50, 130, page.Width, 20), XStringFormats.TopLeft);
 
             List<(DateTime, SaveData.DayData)> monthdays = new List<(DateTime, SaveData.DayData)>();
-
-            // Find first and last day of that month
-            DateTime firstDay = new DateTime(_currentSelecedDay.Year, _currentSelecedDay.Month, 1);
-            int daysInMonth = DateTime.DaysInMonth(_currentSelecedDay.Year, _currentSelecedDay.Month);
-            DateTime lastDay = new DateTime(_currentSelecedDay.Year, _currentSelecedDay.Month, daysInMonth);
 
             TimeSpan extraHours = TimeSpan.Zero;
 

@@ -135,6 +135,12 @@
     <Compile Include="ConfigForm.Designer.cs">
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomPeriodExportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomPeriodExportForm.Designer.cs">
+      <DependentUpon>CustomPeriodExportForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FontResolver.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -147,6 +153,9 @@
     <Compile Include="SaveData.cs" />
     <EmbeddedResource Include="ConfigForm.resx">
       <DependentUpon>ConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomPeriodExportForm.resx">
+      <DependentUpon>CustomPeriodExportForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
