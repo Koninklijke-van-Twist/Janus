@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.DirectoryServices.AccountManagement;
 using System.Globalization;
 using System.IO;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace Janus
@@ -522,17 +523,33 @@ namespace Janus
             // Loop through all days
             for (DateTime day = firstDay; day <= lastDay; day = day.AddDays(1))
             {
-                if (SaveData.SavedDays.ContainsKey(day) && (SaveData.SavedDays[day].WorkedTime > TimeSpan.Zero || SaveData.SavedDays[day].Kilometers >= 0 || SaveData.SavedDays[day].isHoliday))
+                int dayNumber = ((int)day.DayOfWeek + 6) % 7;
+
+                if (SaveData.SavedDays.ContainsKey(day) 
+                    && (SaveData.SavedDays[day].WorkedTime > TimeSpan.Zero 
+                        || SaveData.SavedDays[day].Kilometers > 0 
+                        || SaveData.SavedDays[day].isHoliday 
+                        || SaveData.GetWorkHoursForDayNumber(dayNumber) > TimeSpan.Zero
+                    ))
                 {
                     monthdays.Add((day, SaveData.GetDay(day)));
-
-                    int dayNumber = ((int)day.DayOfWeek + 6) % 7;
 
                     if (!SaveData.SavedDays[day].isHoliday)
                     {
                         TimeSpan OverTime = TimeSpan.FromMinutes((SaveData.GetDay(day).WorkedTime - SaveData.GetWorkHoursForDayNumber(dayNumber)).TotalMinutes);
                         extraHours = extraHours.Add(OverTime);
                     }
+                }
+                else if(!SaveData.SavedDays.ContainsKey(day) && SaveData.GetWorkHoursForDayNumber(dayNumber) > TimeSpan.Zero)
+                {
+                    SaveData.DayData emptyDay = new SaveData.DayData();
+                    emptyDay.StartTime = TimeSpan.Zero;
+                    emptyDay.EndTime = TimeSpan.Zero;
+                    emptyDay.BreakMinutes = 0;
+                    emptyDay.isHoliday = false;
+                    emptyDay.Kilometers = 0;
+
+                    monthdays.Add((day, emptyDay));
                 }
             }
 
@@ -555,9 +572,6 @@ namespace Janus
 
             foreach ((DateTime, SaveData.DayData) row in monthdays)
             {
-                if (row.Item2.WorkedTime == TimeSpan.Zero && row.Item2.Kilometers == 0 && !row.Item2.isHoliday)
-                    continue;
-
                 if (shade)
                 {
                     gfx.DrawRectangle(XBrushes.LightGray, xDate, y - 4, page.Width - 100, rowHeight);
@@ -569,7 +583,7 @@ namespace Janus
                 gfx.DrawString(row.Item2.isHoliday ? "Vakantiedag" : row.Item2.WorkedString, fontRegular, kvtBrush,
                     new XRect(xHours, y, 100, rowHeight), XStringFormats.CenterLeft);
 
-                gfx.DrawString(row.Item2.isHoliday ? "N.v.t." : $"{row.Item2.Kilometers.ToString()} km", fontRegular, kvtBrush,
+                gfx.DrawString(row.Item2.isHoliday ? "N.v.t." : $"{(int)row.Item2.Kilometers} km", fontRegular, kvtBrush,
                     new XRect(xKm, y, 100, rowHeight), XStringFormats.CenterLeft);
 
                 if(!row.Item2.isHoliday)
@@ -587,7 +601,7 @@ namespace Janus
                 y += rowHeight;
             }
 
-            gfx.DrawString($"Totaal kilometers gereden: {totalKm}", fontBold, kvtBrush, new XRect(50, y, 200, rowHeight), XStringFormats.CenterLeft);
+            gfx.DrawString($"Totaal kilometers gereden: {(int)totalKm}", fontBold, kvtBrush, new XRect(50, y, 200, rowHeight), XStringFormats.CenterLeft);
 
 
             double pageWidth = page.Width;
