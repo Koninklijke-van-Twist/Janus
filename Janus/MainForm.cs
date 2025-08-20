@@ -194,11 +194,11 @@ namespace Janus
                 string start = form.LastSelectedStartDate.ToString("dd MMMM yyyy", dutch);
                 string end = form.LastSelectedEndDate.ToString("dd MMMM yyyy", dutch);
 
-                saveFileDialog1.FileName = $"{_userName} - uren {start} - {end}";
+                saveFileDialog1.FileName = $"{_userName} - uren {start} t∕m {end}";
 
                 if (saveFileDialog1.ShowDialog() is DialogResult.OK)
                 {
-                    CreatePDF(saveFileDialog1.FileName, form.LastSelectedStartDate, form.LastSelectedEndDate, $"{start} - {end}");
+                    CreatePDF(saveFileDialog1.FileName, form.LastSelectedStartDate, form.LastSelectedEndDate, $"{start} t/m {end}");
                 }
             }
         }
@@ -534,9 +534,9 @@ namespace Janus
             XBrush kvtBrush = new XSolidBrush(XColor.FromArgb(0, 82, 155));
             XBrush kvtBgBrush = new XSolidBrush(XColor.FromArgb(0, 153, 204));
 
-            // Write user details
-            gfx.DrawString($"{_userName}, {monthYear}", fontBig, kvtBrush, new XRect(50, 100, page.Width, 30), XStringFormats.TopLeft);
-            gfx.DrawString($"{_userEmail}", fontRegular, kvtBrush, new XRect(50, 130, page.Width, 20), XStringFormats.TopLeft);
+            // Write user details 
+            gfx.DrawString($"{_userName}", fontBig, kvtBrush, new XRect(50, 100, page.Width, 30), XStringFormats.TopLeft);
+            gfx.DrawString($"{_userEmail} - {(customPeriodString != string.Empty? customPeriodString : monthYear)}", fontRegular, kvtBrush, new XRect(50, 130, page.Width, 20), XStringFormats.TopLeft);
 
             List<(DateTime, SaveData.DayData)> monthdays = new List<(DateTime, SaveData.DayData)>();
 
