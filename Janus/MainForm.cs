@@ -140,7 +140,7 @@ namespace Janus
 
         private void setStartToNow_Click(object sender, EventArgs e)
         {
-            startTimePicker.Value = DateTime.Now;
+            startTimePicker.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0);
 
             if (endTimePicker.Value.TimeOfDay < startTimePicker.Value.TimeOfDay)
             {
@@ -152,7 +152,7 @@ namespace Janus
 
         private void setEndToNow_Click(object sender, EventArgs e)
         {
-            endTimePicker.Value = DateTime.Now;
+            endTimePicker.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0);
 
             if (endTimePicker.Value.TimeOfDay < startTimePicker.Value.TimeOfDay)
             {
@@ -233,6 +233,9 @@ namespace Janus
             CurrentDayData.StartTime = startTimePicker.Value.TimeOfDay;
             CurrentDayData.EndTime = endTimePicker.Value.TimeOfDay;
             CurrentDayData.BreakMinutes = (int)breakMinutesInput.Value;
+
+            CurrentDayData.StartTime = CurrentDayData.StartTime.Subtract(TimeSpan.FromSeconds(CurrentDayData.StartTime.Seconds));
+            CurrentDayData.EndTime = CurrentDayData.EndTime.Subtract(TimeSpan.FromSeconds(CurrentDayData.EndTime.Seconds));
 
             CultureInfo dutch = new CultureInfo("nl-NL");
             string formatted = _currentSelecedDay.ToString("dddd dd MMMM yyyy", dutch);
