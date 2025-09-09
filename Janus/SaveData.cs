@@ -5,6 +5,8 @@ namespace Janus
 {
     public class SaveData
     {
+        public string UserName, UserEmail;
+
         public TimeSpan MondayHours = TimeSpan.FromHours(8);
         public TimeSpan TuesdayHours = TimeSpan.FromHours(8);
         public TimeSpan WednesdayHours = TimeSpan.FromHours(8);

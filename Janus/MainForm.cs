@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.DirectoryServices.AccountManagement;
 using System.Globalization;
 using System.IO;
-using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace Janus
@@ -430,12 +429,32 @@ namespace Janus
 
         private void GetUserData()
         {
-            using (PrincipalContext ctx = new PrincipalContext(ContextType.Domain))
+            try
             {
-                UserPrincipal user = UserPrincipal.Current;
+                using (PrincipalContext ctx = new PrincipalContext(ContextType.Domain))
+                {
+                    UserPrincipal user = UserPrincipal.Current;
 
-                _userName = user.DisplayName;
-                _userEmail = user.EmailAddress;
+                    _userName = user.DisplayName;
+                    _userEmail = user.EmailAddress;
+
+                    SaveData.UserName = _userName;
+                    SaveData.UserEmail = _userEmail;
+                }
+            }
+            catch (Exception e)
+            {
+                _userName = SaveData.UserName;
+                _userEmail = SaveData.UserEmail;
+
+                if(_userName == null || _userEmail == null)
+                {
+                    if(MessageBox.Show("User data could not be loaded, and was not available in local cache. This may affect PDF exports; do you want to continue?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                    {
+                        MessageBox.Show(e.ToString(), "Inner error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw e;
+                    }
+                }
             }
         }
 
