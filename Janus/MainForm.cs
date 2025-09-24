@@ -1,4 +1,4 @@
-﻿using PdfSharp.Drawing;
+using PdfSharp.Drawing;
 using PdfSharp.Fonts;
 using PdfSharp.Pdf;
 using System;
@@ -516,10 +516,11 @@ namespace Janus
 
             for (DateTime day = firstDay; day <= lastDay; day = day.AddDays(1))
             {
+                int dayNumber = ((int)day.DayOfWeek + 6) % 7;
+
                 // Do we have data on the day && is there any worked time on the day && is it NOT a holiday?
-                if (SaveData.SavedDays.ContainsKey(day) && SaveData.SavedDays[day].WorkedTime > TimeSpan.Zero && !SaveData.SavedDays[day].isHoliday)
+                if (SaveData.SavedDays.ContainsKey(day) && (SaveData.GetWorkHoursForDayNumber(dayNumber).TotalMinutes > 0 || SaveData.SavedDays[day].WorkedTime > TimeSpan.Zero) && !SaveData.SavedDays[day].isHoliday && day <= DateTime.Today)
                 {
-                    int dayNumber = ((int)day.DayOfWeek + 6) % 7;
                     TimeSpan OverTime = TimeSpan.FromMinutes((SaveData.GetDay(day).WorkedTime - SaveData.GetWorkHoursForDayNumber(dayNumber)).TotalMinutes);
                     extraHours = extraHours.Add(OverTime);
                 }
