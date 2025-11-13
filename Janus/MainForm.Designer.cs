@@ -54,6 +54,10 @@
             this.TuesdayName = new System.Windows.Forms.Label();
             this.MondayName = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.saveMonthPDF = new System.Windows.Forms.ToolStripSplitButton();
+            this.aangepastePeriodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SettingsCategory = new System.Windows.Forms.ToolStripSplitButton();
+            this.openOpslaglocatieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -73,10 +77,7 @@
             this.extraHoursLabel = new System.Windows.Forms.Label();
             this.isHoliday = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.SettingsCategory = new System.Windows.Forms.ToolStripSplitButton();
-            this.openOpslaglocatieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveMonthPDF = new System.Windows.Forms.ToolStripSplitButton();
-            this.aangepastePeriodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.isSickday = new System.Windows.Forms.CheckBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.breakMinutesInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kmDriven)).BeginInit();
@@ -334,6 +335,44 @@
             this.toolStrip1.TabIndex = 24;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // saveMonthPDF
+            // 
+            this.saveMonthPDF.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.saveMonthPDF.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aangepastePeriodeToolStripMenuItem});
+            this.saveMonthPDF.Image = ((System.Drawing.Image)(resources.GetObject("saveMonthPDF.Image")));
+            this.saveMonthPDF.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveMonthPDF.Name = "saveMonthPDF";
+            this.saveMonthPDF.Size = new System.Drawing.Size(186, 22);
+            this.saveMonthPDF.Text = "Maandrapportage PDF opslaan";
+            this.saveMonthPDF.ButtonClick += new System.EventHandler(this.saveMonthPDF_ButtonClick);
+            // 
+            // aangepastePeriodeToolStripMenuItem
+            // 
+            this.aangepastePeriodeToolStripMenuItem.Name = "aangepastePeriodeToolStripMenuItem";
+            this.aangepastePeriodeToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.aangepastePeriodeToolStripMenuItem.Text = "Aangepaste periode...";
+            this.aangepastePeriodeToolStripMenuItem.Click += new System.EventHandler(this.aangepastePeriodeToolStripMenuItem_Click);
+            // 
+            // SettingsCategory
+            // 
+            this.SettingsCategory.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.SettingsCategory.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openOpslaglocatieToolStripMenuItem});
+            this.SettingsCategory.Image = ((System.Drawing.Image)(resources.GetObject("SettingsCategory.Image")));
+            this.SettingsCategory.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SettingsCategory.Name = "SettingsCategory";
+            this.SettingsCategory.Size = new System.Drawing.Size(84, 22);
+            this.SettingsCategory.Text = "Instellingen";
+            this.SettingsCategory.ButtonClick += new System.EventHandler(this.SettingsCategory_ButtonClick);
+            // 
+            // openOpslaglocatieToolStripMenuItem
+            // 
+            this.openOpslaglocatieToolStripMenuItem.Name = "openOpslaglocatieToolStripMenuItem";
+            this.openOpslaglocatieToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.openOpslaglocatieToolStripMenuItem.Text = "Open Opslaglocatie";
+            this.openOpslaglocatieToolStripMenuItem.Click += new System.EventHandler(this.openOpslaglocatieToolStripMenuItem_Click);
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -525,49 +564,23 @@
             this.pictureBox1.TabIndex = 42;
             this.pictureBox1.TabStop = false;
             // 
-            // SettingsCategory
+            // isSickday
             // 
-            this.SettingsCategory.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.SettingsCategory.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openOpslaglocatieToolStripMenuItem});
-            this.SettingsCategory.Image = ((System.Drawing.Image)(resources.GetObject("SettingsCategory.Image")));
-            this.SettingsCategory.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.SettingsCategory.Name = "SettingsCategory";
-            this.SettingsCategory.Size = new System.Drawing.Size(84, 22);
-            this.SettingsCategory.Text = "Instellingen";
-            this.SettingsCategory.ButtonClick += new System.EventHandler(this.SettingsCategory_ButtonClick);
-            // 
-            // openOpslaglocatieToolStripMenuItem
-            // 
-            this.openOpslaglocatieToolStripMenuItem.Name = "openOpslaglocatieToolStripMenuItem";
-            this.openOpslaglocatieToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.openOpslaglocatieToolStripMenuItem.Text = "Open Opslaglocatie";
-            this.openOpslaglocatieToolStripMenuItem.Click += new System.EventHandler(this.openOpslaglocatieToolStripMenuItem_Click);
-            // 
-            // saveMonthPDF
-            // 
-            this.saveMonthPDF.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.saveMonthPDF.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aangepastePeriodeToolStripMenuItem});
-            this.saveMonthPDF.Image = ((System.Drawing.Image)(resources.GetObject("saveMonthPDF.Image")));
-            this.saveMonthPDF.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveMonthPDF.Name = "saveMonthPDF";
-            this.saveMonthPDF.Size = new System.Drawing.Size(186, 22);
-            this.saveMonthPDF.Text = "Maandrapportage PDF opslaan";
-            this.saveMonthPDF.ButtonClick += new System.EventHandler(this.saveMonthPDF_ButtonClick);
-            // 
-            // aangepastePeriodeToolStripMenuItem
-            // 
-            this.aangepastePeriodeToolStripMenuItem.Name = "aangepastePeriodeToolStripMenuItem";
-            this.aangepastePeriodeToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.aangepastePeriodeToolStripMenuItem.Text = "Aangepaste periode...";
-            this.aangepastePeriodeToolStripMenuItem.Click += new System.EventHandler(this.aangepastePeriodeToolStripMenuItem_Click);
+            this.isSickday.AutoSize = true;
+            this.isSickday.Location = new System.Drawing.Point(195, 171);
+            this.isSickday.Name = "isSickday";
+            this.isSickday.Size = new System.Drawing.Size(47, 17);
+            this.isSickday.TabIndex = 44;
+            this.isSickday.Text = "Ziek";
+            this.isSickday.UseVisualStyleBackColor = true;
+            this.isSickday.CheckedChanged += new System.EventHandler(this.isSickday_CheckedChanged);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(438, 256);
+            this.Controls.Add(this.isSickday);
             this.Controls.Add(this.isHoliday);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.extraHoursLabel);
@@ -677,6 +690,7 @@
         private System.Windows.Forms.CheckBox isHoliday;
         private System.Windows.Forms.ToolStripSplitButton saveMonthPDF;
         private System.Windows.Forms.ToolStripMenuItem aangepastePeriodeToolStripMenuItem;
+        private System.Windows.Forms.CheckBox isSickday;
     }
 }
 

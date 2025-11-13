@@ -57,7 +57,7 @@ namespace Janus
             public int BreakMinutes;
             public decimal Kilometers;
             public bool isHoliday = false;
-
+            public bool isSickDay = false;
             public TimeSpan WorkedTime => (EndTime - StartTime).Subtract(TimeSpan.FromMinutes(BreakMinutes));
             public string WorkedString => $"{WorkedTime.Hours} uur, {WorkedTime.Minutes} {(WorkedTime.Minutes == 1? "minuut" : "minuten")}";
 
