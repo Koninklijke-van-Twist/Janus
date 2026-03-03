@@ -581,11 +581,11 @@
             // label6
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label6.Location = new System.Drawing.Point(303, 201);
+            this.label6.Location = new System.Drawing.Point(299, 201);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(127, 16);
             this.label6.TabIndex = 45;
-            this.label6.Text = "Overuren vorige maand:";
+            this.label6.Text = "vorige maand:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // extraHoursPreviousMonthLabel
@@ -601,6 +601,7 @@
             // extraHoursTotalLabel
             // 
             this.extraHoursTotalLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.extraHoursTotalLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.extraHoursTotalLabel.Location = new System.Drawing.Point(299, 233);
             this.extraHoursTotalLabel.Name = "extraHoursTotalLabel";
             this.extraHoursTotalLabel.Size = new System.Drawing.Size(127, 16);

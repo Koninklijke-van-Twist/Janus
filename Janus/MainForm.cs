@@ -574,6 +574,31 @@ namespace Janus
                 }
             }
 
+            SaveData.SetSavedMonthExtra(year, month, extraHours);
+
+            if(extraHours < TimeSpan.Zero && previousMonth)
+            {
+                int pmonth = month - 1;
+                int pyear = year;
+                if (pmonth == 0)
+                {
+                    pmonth = 12;
+                    pyear -= 1;
+                }
+
+                TimeSpan needed = TimeSpan.FromMinutes(-extraHours.TotalMinutes);
+                TimeSpan available = SaveData.GetSavedMonthExtra(pyear, pmonth);
+
+                if(available >= needed)
+                {
+                    extraHours = TimeSpan.Zero;
+                }
+                else
+                {
+                    extraHours += available;
+                }
+            }
+
             return extraHours;
         }
 
