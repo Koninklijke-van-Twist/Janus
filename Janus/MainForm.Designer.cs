@@ -78,6 +78,9 @@
             this.isHoliday = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.isSickday = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.extraHoursPreviousMonthLabel = new System.Windows.Forms.Label();
+            this.extraHoursTotalLabel = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.breakMinutesInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kmDriven)).BeginInit();
@@ -526,7 +529,7 @@
             // label5
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label5.Location = new System.Drawing.Point(299, 199);
+            this.label5.Location = new System.Drawing.Point(299, 169);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(127, 16);
             this.label5.TabIndex = 40;
@@ -536,7 +539,7 @@
             // extraHoursLabel
             // 
             this.extraHoursLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.extraHoursLabel.Location = new System.Drawing.Point(299, 215);
+            this.extraHoursLabel.Location = new System.Drawing.Point(299, 185);
             this.extraHoursLabel.Name = "extraHoursLabel";
             this.extraHoursLabel.Size = new System.Drawing.Size(127, 16);
             this.extraHoursLabel.TabIndex = 41;
@@ -557,7 +560,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::Janus.Properties.Resources.kvtlogo_t;
-            this.pictureBox1.Location = new System.Drawing.Point(306, 57);
+            this.pictureBox1.Location = new System.Drawing.Point(306, 50);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(120, 118);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -575,11 +578,44 @@
             this.isSickday.UseVisualStyleBackColor = true;
             this.isSickday.CheckedChanged += new System.EventHandler(this.isSickday_CheckedChanged);
             // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label6.Location = new System.Drawing.Point(303, 201);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(127, 16);
+            this.label6.TabIndex = 45;
+            this.label6.Text = "Overuren vorige maand:";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // extraHoursPreviousMonthLabel
+            // 
+            this.extraHoursPreviousMonthLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.extraHoursPreviousMonthLabel.Location = new System.Drawing.Point(299, 217);
+            this.extraHoursPreviousMonthLabel.Name = "extraHoursPreviousMonthLabel";
+            this.extraHoursPreviousMonthLabel.Size = new System.Drawing.Size(127, 16);
+            this.extraHoursPreviousMonthLabel.TabIndex = 46;
+            this.extraHoursPreviousMonthLabel.Text = "0 uur";
+            this.extraHoursPreviousMonthLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // extraHoursTotalLabel
+            // 
+            this.extraHoursTotalLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.extraHoursTotalLabel.Location = new System.Drawing.Point(299, 233);
+            this.extraHoursTotalLabel.Name = "extraHoursTotalLabel";
+            this.extraHoursTotalLabel.Size = new System.Drawing.Size(127, 16);
+            this.extraHoursTotalLabel.TabIndex = 47;
+            this.extraHoursTotalLabel.Text = "0 uur";
+            this.extraHoursTotalLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(438, 256);
+            this.Controls.Add(this.extraHoursTotalLabel);
+            this.Controls.Add(this.extraHoursPreviousMonthLabel);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.isSickday);
             this.Controls.Add(this.isHoliday);
             this.Controls.Add(this.pictureBox1);
@@ -691,6 +727,9 @@
         private System.Windows.Forms.ToolStripSplitButton saveMonthPDF;
         private System.Windows.Forms.ToolStripMenuItem aangepastePeriodeToolStripMenuItem;
         private System.Windows.Forms.CheckBox isSickday;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label extraHoursPreviousMonthLabel;
+        private System.Windows.Forms.Label extraHoursTotalLabel;
     }
 }
 

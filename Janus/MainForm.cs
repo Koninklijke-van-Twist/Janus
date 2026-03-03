@@ -3,6 +3,7 @@ using PdfSharp.Fonts;
 using PdfSharp.Pdf;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.DirectoryServices.AccountManagement;
 using System.Globalization;
@@ -403,14 +404,32 @@ namespace Janus
             }
 
             TimeSpan extraHours = CalculateExtraHours();
+            TimeSpan extraHoursPreviousMonth = CalculateExtraHours(true);
+            TimeSpan extraHoursTotal = extraHours.Add(extraHoursPreviousMonth);
 
             string extraHoursFormatted = string.Format("{0}{1:00}:{2:00}",
                 extraHours.Ticks < 0 ? "-" : "+",
                 Math.Abs((int)extraHours.TotalHours),
                 Math.Abs(extraHours.Minutes));
 
+            string extraHoursPreviousMonthFormatted = string.Format("{0}{1:00}:{2:00}",
+                extraHoursPreviousMonth.Ticks < 0 ? "-" : "+",
+                Math.Abs((int)extraHoursPreviousMonth.TotalHours),
+                Math.Abs(extraHoursPreviousMonth.Minutes));
+
+            string extraHoursTotalFormatted = string.Format("{0}{1:00}:{2:00}",
+                extraHoursTotal.Ticks < 0 ? "-" : "+",
+                Math.Abs((int)extraHoursTotal.TotalHours),
+                Math.Abs(extraHoursTotal.Minutes));
+
             extraHoursLabel.Text = extraHoursFormatted;
             extraHoursLabel.ForeColor = extraHours > TimeSpan.Zero ? System.Drawing.Color.DarkGreen : extraHours < TimeSpan.Zero ? System.Drawing.Color.DarkRed : System.Drawing.Color.Black;
+
+            extraHoursPreviousMonthLabel.Text = extraHoursPreviousMonthFormatted;
+            extraHoursPreviousMonthLabel.ForeColor = extraHoursPreviousMonth > TimeSpan.Zero ? System.Drawing.Color.DarkGreen : extraHoursPreviousMonth < TimeSpan.Zero ? System.Drawing.Color.DarkRed : System.Drawing.Color.Black;
+
+            extraHoursTotalLabel.Text = "Totaal: " + extraHoursTotalFormatted;
+            extraHoursTotalLabel.ForeColor = extraHoursTotal > TimeSpan.Zero ? System.Drawing.Color.DarkGreen : extraHoursTotal < TimeSpan.Zero ? System.Drawing.Color.DarkRed : System.Drawing.Color.Black;
         }
 
         private void Load()
@@ -522,13 +541,26 @@ namespace Janus
             isSickday.Enabled = !CurrentDayData.isHoliday;
         }
 
-        private TimeSpan CalculateExtraHours()
+        private TimeSpan CalculateExtraHours(bool previousMonth = false)
         {
             TimeSpan extraHours = TimeSpan.Zero;
 
-            DateTime firstDay = new DateTime(_currentSelecedDay.Year, _currentSelecedDay.Month, 1);
-            int daysInMonth = DateTime.DaysInMonth(_currentSelecedDay.Year, _currentSelecedDay.Month);
-            DateTime lastDay = new DateTime(_currentSelecedDay.Year, _currentSelecedDay.Month, daysInMonth);
+            int year = _currentSelecedDay.Year;
+            int month = _currentSelecedDay.Month;
+
+            if(previousMonth)
+            {
+                month -= 1;
+                if(month == 0)
+                {
+                    month = 12;
+                    year -= 1;
+                }
+            }
+
+            DateTime firstDay = new DateTime(year, month, 1);
+            int daysInMonth = DateTime.DaysInMonth(year, month);
+            DateTime lastDay = new DateTime(year, month, daysInMonth);
 
             for (DateTime day = firstDay; day <= lastDay; day = day.AddDays(1))
             {
