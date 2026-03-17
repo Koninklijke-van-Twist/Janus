@@ -18,6 +18,8 @@ namespace Janus
 
         public static SaveData SaveData;
         public static string _savePath = GetSavePath();
+        private static FileStream _saveLockStream = null; // holds long-lived lock on savedata.json
+        private static readonly TimeSpan SaveLockAcquireTimeout = TimeSpan.FromSeconds(60); // adjust as needed
 
         #endregion
 
@@ -38,6 +40,7 @@ namespace Janus
         {
             InitializeComponent();
             Load();
+            AcquireSaveFileLock();
             GetUserData();
             _currentSelecedDay = DateTime.Now;
             LoadDay();
@@ -171,6 +174,7 @@ namespace Janus
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Save();
+            ReleaseSaveFileLock();
         }
 
         private void saveMonthPDF_ButtonClick(object sender, EventArgs e)
@@ -481,7 +485,125 @@ namespace Janus
             Directory.CreateDirectory(GetSavePath());
             string configPath = Path.Combine(GetSavePath(), "savedata.json");
 
-            File.WriteAllText(configPath, jsonConfig);
+            // If we hold an open lock stream, write into it (truncate + write).
+            if (_saveLockStream != null)
+            {
+                try
+                {
+                    lock (_saveLockStream) // guard concurrent calls
+                    {
+                        _saveLockStream.Seek(0, SeekOrigin.Begin);
+                        _saveLockStream.SetLength(0);
+
+                        byte[] data = System.Text.Encoding.UTF8.GetBytes(jsonConfig);
+                        _saveLockStream.Write(data, 0, data.Length);
+
+                        // Flush to disk. Flush(true) requests flush to hardware on .NET >= 4.5+. Good for durability.
+                        _saveLockStream.Flush(true);
+                    }
+                    return;
+                }
+                catch (IOException)
+                {
+                    // If writing to the locked stream unexpectedly fails, fall through to the fallback writer.
+                    try { _saveLockStream?.Dispose(); } catch { } 
+                    _saveLockStream = null;
+                }
+            }
+
+            // Fallback: attempt atomic write with retries (simple)
+            int attempts = 0;
+            while (attempts < 5)
+            {
+                try
+                {
+                    // write to temp + replace to reduce corruption risk
+                    string temp = configPath + ".tmp";
+                    File.WriteAllText(temp, jsonConfig, System.Text.Encoding.UTF8);
+                    if (File.Exists(configPath))
+                    {
+                        File.Replace(temp, configPath, null);
+                    }
+                    else
+                    {
+                        File.Move(temp, configPath);
+                    }
+                    return;
+                }
+                catch (IOException)
+                {
+                    System.Threading.Thread.Sleep(200);
+                    attempts++;
+                    continue;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    System.Threading.Thread.Sleep(200);
+                    attempts++;
+                    continue;
+                }
+            }
+
+            // Last resort: write directly (may throw)
+            File.WriteAllText(configPath, jsonConfig, System.Text.Encoding.UTF8);
+        }
+
+        private void AcquireSaveFileLock()
+        {
+            string path = Path.Combine(GetSavePath(), "savedata.json");
+            Directory.CreateDirectory(GetSavePath());
+
+            // Ensure file exists so we can open it
+            if (!File.Exists(path))
+            {
+                // create minimal valid json so file exists
+                File.WriteAllText(path, "{}");
+            }
+
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            while (sw.Elapsed < SaveLockAcquireTimeout)
+            {
+                try
+                {
+                    // Open file with ReadWrite access for this process and disallow other processes from opening it for write.
+                    // FileShare.Read allows other processes to read while we keep it open.
+                    // If you want to block reads too, use FileShare.None.
+                    _saveLockStream = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+                    // Optionally read to ensure stream is usable:
+                    return;
+                }
+                catch (IOException)
+                {
+                    // file is in use by another process - wait a short time and retry
+                    System.Threading.Thread.Sleep(200);
+                    continue;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    // maybe locked or permission - wait and retry briefly
+                    System.Threading.Thread.Sleep(200);
+                    continue;
+                }
+            }
+
+            // if we reach here the lock was not acquired within timeout; continue without lock (_saveLockStream stays null)
+        }
+
+        private void ReleaseSaveFileLock()
+        {
+            try
+            {
+                if (_saveLockStream != null)
+                {
+                    _saveLockStream.Flush();
+                    _saveLockStream.Dispose();
+                    _saveLockStream = null;
+                }
+            }
+            catch
+            {
+                // swallow - nothing sensible to do on shutdown
+            }
         }
 
         private void GetUserData()
