@@ -18,7 +18,8 @@ namespace Janus
         public static SaveData SaveData;
         public static string _savePath = GetSavePath();
         private static FileStream _saveLockStream = null; // holds long-lived lock on savedata.json
-        private static readonly TimeSpan SaveLockAcquireTimeout = TimeSpan.FromSeconds(60); // adjust as needed
+        private static readonly TimeSpan SaveLockAcquireTimeout = TimeSpan.FromSeconds(60); // adjust as 
+        private static string _defaultPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\Janus";
 
         #endregion
 
@@ -443,9 +444,9 @@ namespace Janus
 
         public static string GetSavePath()
         {
-            string savePointer = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\Janus\\savepath";
+            string savePointer = $"{_defaultPath}\\savepath";
 
-            string path = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\Janus";
+            string path = _defaultPath;
 
             if (File.Exists(savePointer))
                 path = File.ReadAllText(savePointer);
@@ -483,6 +484,9 @@ namespace Janus
 
             Directory.CreateDirectory(GetSavePath());
             string configPath = Path.Combine(GetSavePath(), "savedata.json");
+            string defaultSavePath = Path.Combine(_defaultPath, "savedata_backup.json");
+
+            File.WriteAllText(defaultSavePath, jsonConfig, System.Text.Encoding.UTF8);
 
             // If we hold an open lock stream, write into it (truncate + write).
             if (_saveLockStream != null)
