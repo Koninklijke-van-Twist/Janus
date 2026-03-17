@@ -17,6 +17,7 @@ namespace Janus
         #region Static Variables
 
         public static SaveData SaveData;
+        public static string _savePath = GetSavePath();
 
         #endregion
 
@@ -30,7 +31,6 @@ namespace Janus
         #region Properties
 
         private SaveData.DayData CurrentDayData => SaveData.SavedDays[_currentSelecedDay];
-        private string _saveDirectory => $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\Janus";
 
         #endregion
 
@@ -53,8 +53,8 @@ namespace Janus
 
         private void openOpslaglocatieToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Directory.CreateDirectory(_saveDirectory);
-            Process.Start(_saveDirectory);
+            Directory.CreateDirectory(GetSavePath());
+            Process.Start(GetSavePath());
         }
 
         private void previousDayButton_Click(object sender, EventArgs e)
@@ -122,6 +122,12 @@ namespace Janus
         {
             SaveData.EnsureDayDataExists(_currentSelecedDay);
             SaveData.SavedDays[_currentSelecedDay].Kilometers = kmDriven.Value;
+        }
+
+        private void homeWorkDriven_CheckedChanged(object sender, EventArgs e)
+        {
+            SaveData.EnsureDayDataExists(_currentSelecedDay);
+            SaveData.SavedDays[_currentSelecedDay].HomeWorkDriven = homeWorkDriven.Checked;
         }
 
         private void autoEndHours_Click(object sender, EventArgs e)
@@ -432,11 +438,31 @@ namespace Janus
             extraHoursTotalLabel.ForeColor = extraHoursTotal > TimeSpan.Zero ? System.Drawing.Color.DarkGreen : extraHoursTotal < TimeSpan.Zero ? System.Drawing.Color.DarkRed : System.Drawing.Color.Black;
         }
 
+        public static string GetSavePath()
+        {
+            string savePointer = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\Janus\\savepath";
+
+            string path = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\Janus";
+
+            if (File.Exists(savePointer))
+                path = File.ReadAllText(savePointer);
+
+            return path;
+        }
+
+        public static void SetSavePath(string newPath)
+        {
+            _savePath = newPath;
+            string savePointer = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\Janus\\savepath";
+            Directory.CreateDirectory(Path.GetDirectoryName(savePointer));
+            File.WriteAllText(savePointer, newPath);
+        }
+
         private void Load()
         {
             try
             {
-                string json = File.ReadAllText(Path.Combine(_saveDirectory, "savedata.json"));
+                string json = File.ReadAllText(Path.Combine(GetSavePath(), "savedata.json"));
                 SaveData = Newtonsoft.Json.JsonConvert.DeserializeObject<SaveData>(json) ?? new SaveData();
             }
             catch (Exception e)
@@ -448,12 +474,12 @@ namespace Janus
             }
         }
 
-        private void Save()
+        public static void Save()
         {
             string jsonConfig = Newtonsoft.Json.JsonConvert.SerializeObject(SaveData);
 
-            Directory.CreateDirectory(_saveDirectory);
-            string configPath = Path.Combine(_saveDirectory, "savedata.json");
+            Directory.CreateDirectory(GetSavePath());
+            string configPath = Path.Combine(GetSavePath(), "savedata.json");
 
             File.WriteAllText(configPath, jsonConfig);
         }
@@ -514,6 +540,7 @@ namespace Janus
 
             breakMinutesInput.Value = day.BreakMinutes;
             kmDriven.Value = day.Kilometers;
+            homeWorkDriven.Checked = day.HomeWorkDriven;
             isHoliday.Checked = day.isHoliday;
             isSickday.Checked = day.isSickDay;
             startTimePicker.Value = start;
@@ -644,8 +671,9 @@ namespace Janus
                 int dayNumber = ((int)day.DayOfWeek + 6) % 7;
 
                 if (SaveData.SavedDays.ContainsKey(day) 
-                    && (SaveData.SavedDays[day].WorkedTime > TimeSpan.Zero 
-                        || SaveData.SavedDays[day].Kilometers > 0 
+                    && (SaveData.SavedDays[day].WorkedTime > TimeSpan.Zero
+                        || SaveData.SavedDays[day].Kilometers > 0
+                        || SaveData.SavedDays[day].HomeWorkDriven
                         || SaveData.SavedDays[day].isHoliday 
                         || SaveData.GetWorkHoursForDayNumber(dayNumber) > TimeSpan.Zero
                     ))
@@ -666,6 +694,7 @@ namespace Janus
                     emptyDay.BreakMinutes = 0;
                     emptyDay.isHoliday = false;
                     emptyDay.Kilometers = 0;
+                    emptyDay.HomeWorkDriven = false;
 
                     monthdays.Add((day, emptyDay));
                 }
@@ -674,16 +703,19 @@ namespace Janus
             int y = 160;
             int rowHeight = 25;
             decimal totalKm = 0;
+            decimal totalKmExtra = 0;
 
             // Table column positions
             int xDate = 50;
-            int xHours = 250;
-            int xKm = 400;
+            int xHours = 230;
+            int xKm = 350;
+            int xKmE = 450;
 
             // Table header
             gfx.DrawString("Datum", fontBold, kvtBrush, new XRect(xDate, y, 200, rowHeight), XStringFormats.CenterLeft);
             gfx.DrawString("Gewerkte uren", fontBold, kvtBrush, new XRect(xHours, y, 100, rowHeight), XStringFormats.CenterLeft);
-            gfx.DrawString("Gereden Kilometers", fontBold, kvtBrush, new XRect(xKm, y, 100, rowHeight), XStringFormats.CenterLeft);
+            gfx.DrawString("Woon-Werk", fontBold, kvtBrush, new XRect(xKm, y, 100, rowHeight), XStringFormats.CenterLeft);
+            gfx.DrawString("Extra KM", fontBold, kvtBrush, new XRect(xKmE, y, 100, rowHeight), XStringFormats.CenterLeft);
             y += rowHeight;
 
             bool shade = false;
@@ -701,11 +733,19 @@ namespace Janus
                 gfx.DrawString(row.Item2.isHoliday ? "Vakantiedag" : row.Item2.isSickDay? "Ziek" :row.Item2.WorkedString, fontRegular, kvtBrush,
                     new XRect(xHours, y, 100, rowHeight), XStringFormats.CenterLeft);
 
-                gfx.DrawString(row.Item2.isHoliday || row.Item2.isSickDay ? "N.v.t." : $"{(int)row.Item2.Kilometers} km", fontRegular, kvtBrush,
+                gfx.DrawString(row.Item2.isHoliday || row.Item2.isSickDay ? "Nee" : (row.Item2.HomeWorkDriven? $"Ja ({(int)(SaveData.KilometerHomeWork * 2)} km)" : "Nee"), fontRegular, kvtBrush,
                     new XRect(xKm, y, 100, rowHeight), XStringFormats.CenterLeft);
 
-                if(!row.Item2.isHoliday && !row.Item2.isSickDay)
-                    totalKm += row.Item2.Kilometers;
+                gfx.DrawString(row.Item2.isHoliday || row.Item2.isSickDay ? "N.v.t." : $"{(int)row.Item2.Kilometers} km", fontRegular, kvtBrush,
+                    new XRect(xKmE, y, 100, rowHeight), XStringFormats.CenterLeft);
+
+                if (!row.Item2.isHoliday && !row.Item2.isSickDay)
+                {
+                    if (row.Item2.HomeWorkDriven)
+                        totalKm += SaveData.KilometerHomeWork * 2;
+
+                    totalKmExtra += row.Item2.Kilometers;
+                }
 
                 y += rowHeight;
                 shade = !shade;
@@ -719,7 +759,8 @@ namespace Janus
                 y += rowHeight;
             }
 
-            gfx.DrawString($"Totaal kilometers gereden: {(int)totalKm}", fontBold, kvtBrush, new XRect(50, y, 200, rowHeight), XStringFormats.CenterLeft);
+            gfx.DrawString($"Totaal kilometers gereden: {(int)(totalKm + totalKmExtra)}", fontBold, kvtBrush, new XRect(50, y, 200, rowHeight), XStringFormats.CenterLeft);
+            gfx.DrawString($"({(int)(totalKm)} woon-werk, {(int)(totalKmExtra)} extra)", fontBold, kvtBrush, new XRect(50, y + rowHeight / 2, 200, rowHeight), XStringFormats.CenterLeft);
 
 
             double pageWidth = page.Width;

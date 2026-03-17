@@ -14,6 +14,7 @@ namespace Janus
         public TimeSpan FridayHours = TimeSpan.FromHours(8);
         public TimeSpan SaturdayHours = TimeSpan.FromHours(0);
         public TimeSpan SundayHours = TimeSpan.FromHours(0);
+        public decimal KilometerHomeWork = 0;
 
         // New: persisted per-month extra hours (stored as ticks for durable JSON representation)
         // Keyed by MonthSelector so JSON keys will be readable like "02-2026"
@@ -132,6 +133,7 @@ namespace Janus
             public TimeSpan EndTime;
             public int BreakMinutes;
             public decimal Kilometers;
+            public bool HomeWorkDriven;
             public bool isHoliday = false;
             public bool isSickDay = false;
             public TimeSpan WorkedTime => (EndTime - StartTime).Subtract(TimeSpan.FromMinutes(BreakMinutes));

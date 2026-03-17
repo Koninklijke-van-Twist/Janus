@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Janus
@@ -15,6 +17,8 @@ namespace Janus
             fridayHoursPicker.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, MainForm.SaveData.FridayHours.Hours, MainForm.SaveData.FridayHours.Minutes, 0);
             saturdayHoursPicker.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, MainForm.SaveData.SaturdayHours.Hours, MainForm.SaveData.SaturdayHours.Minutes, 0);
             sundayHoursPicker.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, MainForm.SaveData.SundayHours.Hours, MainForm.SaveData.SundayHours.Minutes, 0);
+            kilometerPicker.Value = MainForm.SaveData.KilometerHomeWork;
+            RefreshKilometerDescription();
         }
 
         private void ConfigForm_Load(object sender, EventArgs e)
@@ -55,6 +59,41 @@ namespace Janus
         private void sundayHoursPicker_ValueChanged(object sender, EventArgs e)
         {
             MainForm.SaveData.SundayHours = sundayHoursPicker.Value.TimeOfDay;
+        }
+
+        private void kilometerPicker_ValueChanged(object sender, EventArgs e)
+        {
+            MainForm.SaveData.KilometerHomeWork = (int)kilometerPicker.Value;
+            RefreshKilometerDescription();
+        }
+
+        private void RefreshKilometerDescription()
+        {
+            homeWorkKilometerDescription.Text = $"({MainForm.SaveData.KilometerHomeWork * 2} km totaal heen en terug)";
+        }
+
+        private void openSaveFolder_Click(object sender, EventArgs e)
+        {
+            Directory.CreateDirectory(MainForm.GetSavePath());
+            Process.Start(MainForm.GetSavePath());
+        }
+
+        private void editSaveFolder_Click(object sender, EventArgs e)
+        {
+            if(folderBrowserDialog1.ShowDialog(this) == DialogResult.OK)
+            {
+                string newPath = folderBrowserDialog1.SelectedPath;
+                DirectoryInfo directory = Directory.CreateDirectory(newPath);
+
+                string userName = Environment.UserName;
+                if (!directory.FullName.EndsWith(userName) && !directory.FullName.EndsWith($"{userName}\\"))
+                {
+                    directory = directory.CreateSubdirectory(userName);
+                }
+
+                MainForm.SetSavePath(directory.FullName);
+                MainForm.Save();
+            }
         }
     }
 }

@@ -44,6 +44,14 @@
             this.saturdayHoursPicker = new System.Windows.Forms.DateTimePicker();
             this.sundayHoursPicker = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.kilometerPicker = new System.Windows.Forms.NumericUpDown();
+            this.homeWorkKilometerDescription = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.editSaveFolder = new System.Windows.Forms.Button();
+            this.openSaveFolder = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            ((System.ComponentModel.ISupportInitialize)(this.kilometerPicker)).BeginInit();
             this.SuspendLayout();
             // 
             // mondayHoursPicker
@@ -51,7 +59,7 @@
             this.mondayHoursPicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.mondayHoursPicker.CustomFormat = "HH:mm";
             this.mondayHoursPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.mondayHoursPicker.Location = new System.Drawing.Point(95, 34);
+            this.mondayHoursPicker.Location = new System.Drawing.Point(95, 156);
             this.mondayHoursPicker.Name = "mondayHoursPicker";
             this.mondayHoursPicker.ShowUpDown = true;
             this.mondayHoursPicker.Size = new System.Drawing.Size(77, 20);
@@ -62,7 +70,7 @@
             // SundayName
             // 
             this.SundayName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.SundayName.Location = new System.Drawing.Point(12, 194);
+            this.SundayName.Location = new System.Drawing.Point(12, 316);
             this.SundayName.Name = "SundayName";
             this.SundayName.Size = new System.Drawing.Size(65, 16);
             this.SundayName.TabIndex = 36;
@@ -72,7 +80,7 @@
             // SaturdayName
             // 
             this.SaturdayName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.SaturdayName.Location = new System.Drawing.Point(12, 168);
+            this.SaturdayName.Location = new System.Drawing.Point(12, 290);
             this.SaturdayName.Name = "SaturdayName";
             this.SaturdayName.Size = new System.Drawing.Size(65, 16);
             this.SaturdayName.TabIndex = 35;
@@ -82,7 +90,7 @@
             // FridayName
             // 
             this.FridayName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.FridayName.Location = new System.Drawing.Point(12, 142);
+            this.FridayName.Location = new System.Drawing.Point(12, 264);
             this.FridayName.Name = "FridayName";
             this.FridayName.Size = new System.Drawing.Size(65, 16);
             this.FridayName.TabIndex = 34;
@@ -92,7 +100,7 @@
             // ThursdayName
             // 
             this.ThursdayName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ThursdayName.Location = new System.Drawing.Point(12, 116);
+            this.ThursdayName.Location = new System.Drawing.Point(12, 238);
             this.ThursdayName.Name = "ThursdayName";
             this.ThursdayName.Size = new System.Drawing.Size(65, 16);
             this.ThursdayName.TabIndex = 33;
@@ -102,7 +110,7 @@
             // WednesdayName
             // 
             this.WednesdayName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.WednesdayName.Location = new System.Drawing.Point(12, 90);
+            this.WednesdayName.Location = new System.Drawing.Point(12, 212);
             this.WednesdayName.Name = "WednesdayName";
             this.WednesdayName.Size = new System.Drawing.Size(65, 16);
             this.WednesdayName.TabIndex = 32;
@@ -112,7 +120,7 @@
             // TuesdayName
             // 
             this.TuesdayName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.TuesdayName.Location = new System.Drawing.Point(12, 64);
+            this.TuesdayName.Location = new System.Drawing.Point(12, 186);
             this.TuesdayName.Name = "TuesdayName";
             this.TuesdayName.Size = new System.Drawing.Size(65, 16);
             this.TuesdayName.TabIndex = 31;
@@ -122,7 +130,7 @@
             // MondayName
             // 
             this.MondayName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.MondayName.Location = new System.Drawing.Point(12, 38);
+            this.MondayName.Location = new System.Drawing.Point(12, 160);
             this.MondayName.Name = "MondayName";
             this.MondayName.Size = new System.Drawing.Size(65, 16);
             this.MondayName.TabIndex = 30;
@@ -134,7 +142,7 @@
             this.tuesdayHoursPicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.tuesdayHoursPicker.CustomFormat = "HH:mm";
             this.tuesdayHoursPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.tuesdayHoursPicker.Location = new System.Drawing.Point(95, 60);
+            this.tuesdayHoursPicker.Location = new System.Drawing.Point(95, 182);
             this.tuesdayHoursPicker.Name = "tuesdayHoursPicker";
             this.tuesdayHoursPicker.ShowUpDown = true;
             this.tuesdayHoursPicker.Size = new System.Drawing.Size(77, 20);
@@ -147,7 +155,7 @@
             this.wednesdayHoursPicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.wednesdayHoursPicker.CustomFormat = "HH:mm";
             this.wednesdayHoursPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.wednesdayHoursPicker.Location = new System.Drawing.Point(95, 86);
+            this.wednesdayHoursPicker.Location = new System.Drawing.Point(95, 208);
             this.wednesdayHoursPicker.Name = "wednesdayHoursPicker";
             this.wednesdayHoursPicker.ShowUpDown = true;
             this.wednesdayHoursPicker.Size = new System.Drawing.Size(77, 20);
@@ -160,7 +168,7 @@
             this.thursdayHoursPicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.thursdayHoursPicker.CustomFormat = "HH:mm";
             this.thursdayHoursPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.thursdayHoursPicker.Location = new System.Drawing.Point(95, 112);
+            this.thursdayHoursPicker.Location = new System.Drawing.Point(95, 234);
             this.thursdayHoursPicker.Name = "thursdayHoursPicker";
             this.thursdayHoursPicker.ShowUpDown = true;
             this.thursdayHoursPicker.Size = new System.Drawing.Size(77, 20);
@@ -173,7 +181,7 @@
             this.fridayHoursPicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.fridayHoursPicker.CustomFormat = "HH:mm";
             this.fridayHoursPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.fridayHoursPicker.Location = new System.Drawing.Point(95, 138);
+            this.fridayHoursPicker.Location = new System.Drawing.Point(95, 260);
             this.fridayHoursPicker.Name = "fridayHoursPicker";
             this.fridayHoursPicker.ShowUpDown = true;
             this.fridayHoursPicker.Size = new System.Drawing.Size(77, 20);
@@ -186,7 +194,7 @@
             this.saturdayHoursPicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.saturdayHoursPicker.CustomFormat = "HH:mm";
             this.saturdayHoursPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.saturdayHoursPicker.Location = new System.Drawing.Point(95, 164);
+            this.saturdayHoursPicker.Location = new System.Drawing.Point(95, 286);
             this.saturdayHoursPicker.Name = "saturdayHoursPicker";
             this.saturdayHoursPicker.ShowUpDown = true;
             this.saturdayHoursPicker.Size = new System.Drawing.Size(77, 20);
@@ -199,7 +207,7 @@
             this.sundayHoursPicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.sundayHoursPicker.CustomFormat = "HH:mm";
             this.sundayHoursPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.sundayHoursPicker.Location = new System.Drawing.Point(95, 190);
+            this.sundayHoursPicker.Location = new System.Drawing.Point(95, 312);
             this.sundayHoursPicker.Name = "sundayHoursPicker";
             this.sundayHoursPicker.ShowUpDown = true;
             this.sundayHoursPicker.Size = new System.Drawing.Size(77, 20);
@@ -209,18 +217,83 @@
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(43, 9);
+            this.label1.Location = new System.Drawing.Point(42, 130);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(101, 13);
             this.label1.TabIndex = 43;
             this.label1.Text = "Werkuren per week";
             // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(42, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(110, 13);
+            this.label2.TabIndex = 44;
+            this.label2.Text = "Kilometers woon-werk";
+            // 
+            // kilometerPicker
+            // 
+            this.kilometerPicker.Location = new System.Drawing.Point(45, 25);
+            this.kilometerPicker.Name = "kilometerPicker";
+            this.kilometerPicker.Size = new System.Drawing.Size(107, 20);
+            this.kilometerPicker.TabIndex = 45;
+            this.kilometerPicker.ValueChanged += new System.EventHandler(this.kilometerPicker_ValueChanged);
+            // 
+            // homeWorkKilometerDescription
+            // 
+            this.homeWorkKilometerDescription.AutoSize = true;
+            this.homeWorkKilometerDescription.Location = new System.Drawing.Point(30, 48);
+            this.homeWorkKilometerDescription.Name = "homeWorkKilometerDescription";
+            this.homeWorkKilometerDescription.Size = new System.Drawing.Size(153, 13);
+            this.homeWorkKilometerDescription.TabIndex = 46;
+            this.homeWorkKilometerDescription.Text = "XXX kilometers heen en terug. ";
+            this.homeWorkKilometerDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(60, 73);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(74, 13);
+            this.label3.TabIndex = 47;
+            this.label3.Text = "Opslaglocatie:";
+            // 
+            // editSaveFolder
+            // 
+            this.editSaveFolder.Location = new System.Drawing.Point(97, 89);
+            this.editSaveFolder.Name = "editSaveFolder";
+            this.editSaveFolder.Size = new System.Drawing.Size(75, 23);
+            this.editSaveFolder.TabIndex = 48;
+            this.editSaveFolder.Text = "Bewerken";
+            this.editSaveFolder.UseVisualStyleBackColor = true;
+            this.editSaveFolder.Click += new System.EventHandler(this.editSaveFolder_Click);
+            // 
+            // openSaveFolder
+            // 
+            this.openSaveFolder.Location = new System.Drawing.Point(15, 89);
+            this.openSaveFolder.Name = "openSaveFolder";
+            this.openSaveFolder.Size = new System.Drawing.Size(75, 23);
+            this.openSaveFolder.TabIndex = 49;
+            this.openSaveFolder.Text = "Bekijken";
+            this.openSaveFolder.UseVisualStyleBackColor = true;
+            this.openSaveFolder.Click += new System.EventHandler(this.openSaveFolder_Click);
+            // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(195, 222);
+            this.ClientSize = new System.Drawing.Size(195, 344);
+            this.Controls.Add(this.openSaveFolder);
+            this.Controls.Add(this.editSaveFolder);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.homeWorkKilometerDescription);
+            this.Controls.Add(this.kilometerPicker);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.sundayHoursPicker);
             this.Controls.Add(this.saturdayHoursPicker);
@@ -242,9 +315,9 @@
             this.Name = "ConfigForm";
             this.Text = "Instellingen";
             this.Load += new System.EventHandler(this.ConfigForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.kilometerPicker)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
@@ -264,5 +337,12 @@
         private System.Windows.Forms.DateTimePicker saturdayHoursPicker;
         private System.Windows.Forms.DateTimePicker sundayHoursPicker;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown kilometerPicker;
+        private System.Windows.Forms.Label homeWorkKilometerDescription;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button editSaveFolder;
+        private System.Windows.Forms.Button openSaveFolder;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }

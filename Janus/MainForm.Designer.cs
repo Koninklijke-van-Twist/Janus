@@ -81,6 +81,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.extraHoursPreviousMonthLabel = new System.Windows.Forms.Label();
             this.extraHoursTotalLabel = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.homeWorkDriven = new System.Windows.Forms.CheckBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.breakMinutesInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kmDriven)).BeginInit();
@@ -100,7 +102,7 @@
             // nextDayButton
             // 
             this.nextDayButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.nextDayButton.Location = new System.Drawing.Point(396, 27);
+            this.nextDayButton.Location = new System.Drawing.Point(417, 27);
             this.nextDayButton.Name = "nextDayButton";
             this.nextDayButton.Size = new System.Drawing.Size(30, 23);
             this.nextDayButton.TabIndex = 1;
@@ -334,7 +336,7 @@
             this.SettingsCategory});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(438, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(461, 25);
             this.toolStrip1.TabIndex = 24;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -407,7 +409,7 @@
             // 
             this.startTimePicker.CustomFormat = "HH:mm";
             this.startTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.startTimePicker.Location = new System.Drawing.Point(112, 73);
+            this.startTimePicker.Location = new System.Drawing.Point(124, 73);
             this.startTimePicker.Name = "startTimePicker";
             this.startTimePicker.ShowUpDown = true;
             this.startTimePicker.Size = new System.Drawing.Size(77, 20);
@@ -419,7 +421,7 @@
             // 
             this.endTimePicker.CustomFormat = "HH:mm";
             this.endTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.endTimePicker.Location = new System.Drawing.Point(112, 99);
+            this.endTimePicker.Location = new System.Drawing.Point(124, 99);
             this.endTimePicker.Name = "endTimePicker";
             this.endTimePicker.ShowUpDown = true;
             this.endTimePicker.Size = new System.Drawing.Size(77, 20);
@@ -429,7 +431,7 @@
             // 
             // setStartToNow
             // 
-            this.setStartToNow.Location = new System.Drawing.Point(195, 73);
+            this.setStartToNow.Location = new System.Drawing.Point(207, 73);
             this.setStartToNow.Name = "setStartToNow";
             this.setStartToNow.Size = new System.Drawing.Size(31, 20);
             this.setStartToNow.TabIndex = 31;
@@ -439,7 +441,7 @@
             // 
             // setEndToNow
             // 
-            this.setEndToNow.Location = new System.Drawing.Point(195, 99);
+            this.setEndToNow.Location = new System.Drawing.Point(207, 99);
             this.setEndToNow.Name = "setEndToNow";
             this.setEndToNow.Size = new System.Drawing.Size(31, 20);
             this.setEndToNow.TabIndex = 32;
@@ -449,7 +451,7 @@
             // 
             // breakMinutesInput
             // 
-            this.breakMinutesInput.Location = new System.Drawing.Point(112, 129);
+            this.breakMinutesInput.Location = new System.Drawing.Point(124, 129);
             this.breakMinutesInput.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -462,7 +464,7 @@
             // 
             // thirtyMinuteBreak
             // 
-            this.thirtyMinuteBreak.Location = new System.Drawing.Point(195, 129);
+            this.thirtyMinuteBreak.Location = new System.Drawing.Point(207, 129);
             this.thirtyMinuteBreak.Name = "thirtyMinuteBreak";
             this.thirtyMinuteBreak.Size = new System.Drawing.Size(31, 20);
             this.thirtyMinuteBreak.TabIndex = 34;
@@ -472,7 +474,7 @@
             // 
             // fifteenMinuteBreak
             // 
-            this.fifteenMinuteBreak.Location = new System.Drawing.Point(232, 129);
+            this.fifteenMinuteBreak.Location = new System.Drawing.Point(244, 129);
             this.fifteenMinuteBreak.Name = "fifteenMinuteBreak";
             this.fifteenMinuteBreak.Size = new System.Drawing.Size(31, 20);
             this.fifteenMinuteBreak.TabIndex = 35;
@@ -486,7 +488,7 @@
             // 
             // autoEndHours
             // 
-            this.autoEndHours.Location = new System.Drawing.Point(232, 99);
+            this.autoEndHours.Location = new System.Drawing.Point(244, 99);
             this.autoEndHours.Name = "autoEndHours";
             this.autoEndHours.Size = new System.Drawing.Size(68, 20);
             this.autoEndHours.TabIndex = 36;
@@ -496,7 +498,7 @@
             // 
             // zeroBreak
             // 
-            this.zeroBreak.Location = new System.Drawing.Point(269, 129);
+            this.zeroBreak.Location = new System.Drawing.Point(281, 129);
             this.zeroBreak.Name = "zeroBreak";
             this.zeroBreak.Size = new System.Drawing.Size(31, 20);
             this.zeroBreak.TabIndex = 37;
@@ -506,7 +508,7 @@
             // 
             // kmDriven
             // 
-            this.kmDriven.Location = new System.Drawing.Point(112, 155);
+            this.kmDriven.Location = new System.Drawing.Point(124, 176);
             this.kmDriven.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -520,16 +522,16 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 157);
+            this.label1.Location = new System.Drawing.Point(12, 178);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(99, 13);
+            this.label1.Size = new System.Drawing.Size(82, 13);
             this.label1.TabIndex = 39;
-            this.label1.Text = "Kilometers Gereden";
+            this.label1.Text = "Extra Kilometers";
             // 
             // label5
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label5.Location = new System.Drawing.Point(299, 169);
+            this.label5.Location = new System.Drawing.Point(323, 169);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(127, 16);
             this.label5.TabIndex = 40;
@@ -539,7 +541,7 @@
             // extraHoursLabel
             // 
             this.extraHoursLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.extraHoursLabel.Location = new System.Drawing.Point(299, 185);
+            this.extraHoursLabel.Location = new System.Drawing.Point(323, 185);
             this.extraHoursLabel.Name = "extraHoursLabel";
             this.extraHoursLabel.Size = new System.Drawing.Size(127, 16);
             this.extraHoursLabel.TabIndex = 41;
@@ -549,7 +551,7 @@
             // isHoliday
             // 
             this.isHoliday.AutoSize = true;
-            this.isHoliday.Location = new System.Drawing.Point(195, 157);
+            this.isHoliday.Location = new System.Drawing.Point(207, 157);
             this.isHoliday.Name = "isHoliday";
             this.isHoliday.Size = new System.Drawing.Size(86, 17);
             this.isHoliday.TabIndex = 43;
@@ -560,7 +562,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::Janus.Properties.Resources.kvtlogo_t;
-            this.pictureBox1.Location = new System.Drawing.Point(306, 50);
+            this.pictureBox1.Location = new System.Drawing.Point(330, 50);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(120, 118);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -570,7 +572,7 @@
             // isSickday
             // 
             this.isSickday.AutoSize = true;
-            this.isSickday.Location = new System.Drawing.Point(195, 171);
+            this.isSickday.Location = new System.Drawing.Point(207, 171);
             this.isSickday.Name = "isSickday";
             this.isSickday.Size = new System.Drawing.Size(47, 17);
             this.isSickday.TabIndex = 44;
@@ -581,7 +583,7 @@
             // label6
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label6.Location = new System.Drawing.Point(299, 201);
+            this.label6.Location = new System.Drawing.Point(323, 201);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(127, 16);
             this.label6.TabIndex = 45;
@@ -591,7 +593,7 @@
             // extraHoursPreviousMonthLabel
             // 
             this.extraHoursPreviousMonthLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.extraHoursPreviousMonthLabel.Location = new System.Drawing.Point(299, 217);
+            this.extraHoursPreviousMonthLabel.Location = new System.Drawing.Point(323, 217);
             this.extraHoursPreviousMonthLabel.Name = "extraHoursPreviousMonthLabel";
             this.extraHoursPreviousMonthLabel.Size = new System.Drawing.Size(127, 16);
             this.extraHoursPreviousMonthLabel.TabIndex = 46;
@@ -602,18 +604,40 @@
             // 
             this.extraHoursTotalLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.extraHoursTotalLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.extraHoursTotalLabel.Location = new System.Drawing.Point(299, 233);
+            this.extraHoursTotalLabel.Location = new System.Drawing.Point(323, 233);
             this.extraHoursTotalLabel.Name = "extraHoursTotalLabel";
             this.extraHoursTotalLabel.Size = new System.Drawing.Size(127, 16);
             this.extraHoursTotalLabel.TabIndex = 47;
             this.extraHoursTotalLabel.Text = "0 uur";
             this.extraHoursTotalLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 155);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(109, 13);
+            this.label7.TabIndex = 48;
+            this.label7.Text = "Woon-Werk Gereden";
+            // 
+            // homeWorkDriven
+            // 
+            this.homeWorkDriven.AutoSize = true;
+            this.homeWorkDriven.Location = new System.Drawing.Point(124, 154);
+            this.homeWorkDriven.Name = "homeWorkDriven";
+            this.homeWorkDriven.Size = new System.Drawing.Size(63, 17);
+            this.homeWorkDriven.TabIndex = 49;
+            this.homeWorkDriven.Text = "Kantoor";
+            this.homeWorkDriven.UseVisualStyleBackColor = true;
+            this.homeWorkDriven.CheckedChanged += new System.EventHandler(this.homeWorkDriven_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(438, 256);
+            this.ClientSize = new System.Drawing.Size(461, 256);
+            this.Controls.Add(this.homeWorkDriven);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.extraHoursTotalLabel);
             this.Controls.Add(this.extraHoursPreviousMonthLabel);
             this.Controls.Add(this.label6);
@@ -731,6 +755,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label extraHoursPreviousMonthLabel;
         private System.Windows.Forms.Label extraHoursTotalLabel;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox homeWorkDriven;
     }
 }
 
