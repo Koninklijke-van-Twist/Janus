@@ -3,7 +3,6 @@ using PdfSharp.Fonts;
 using PdfSharp.Pdf;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.DirectoryServices.AccountManagement;
 using System.Globalization;
